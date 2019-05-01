@@ -1083,6 +1083,6 @@ func defaultPooledTransport() *http.Transport {
 // keepalives disabled.
 func defaultClient() *http.Client {
 	return &http.Client{
-		Transport: defaultTransport(),
+		Transport: defaultPooledTransport(),
 	}
 }
