@@ -10,6 +10,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -839,6 +840,7 @@ func (c *Client) startContainer(id string, hostConfig *HostConfig, opts doOption
 		}
 		return err
 	}
+	io.Copy(ioutil.Discard, resp.Body)
 	defer resp.Body.Close()
 	if resp.StatusCode == http.StatusNotModified {
 		return &ContainerAlreadyRunning{ID: id}
@@ -872,6 +874,7 @@ func (c *Client) stopContainer(id string, timeout uint, opts doOptions) error {
 		}
 		return err
 	}
+	io.Copy(ioutil.Discard, resp.Body)
 	defer resp.Body.Close()
 	if resp.StatusCode == http.StatusNotModified {
 		return &ContainerNotRunning{ID: id}
